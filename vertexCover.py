@@ -184,6 +184,10 @@ class vertexCover:
     
     def print_edges(self):
         print("E = {")
-        for edge in self.edges:
-            print(f"  {edge},")
+        n = len(self.edges)
+        for i, edge in enumerate(self.edges):
+            if i < n-1:
+                print(f"  {edge},")
+            else:
+                print(f"  {edge}")
         print("}")
