@@ -15,22 +15,34 @@ class vertexCover:
     def add_street(self, name: str, vertices_str: list):
         vertices = []
         for vertex in vertices_str:
-            x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
-            y_arg = int(re.split("[)]", (re.split(",",vertex)[1]))[0])
-            vertices.append((x_arg, y_arg))
+            try:
+                x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
+                y_arg = int(re.split("[)]", (re.split(",",vertex)[1]))[0])
+                vertices.append((x_arg, y_arg))
+            except Exception as e:
+                print('Error: You did not obey the requested format', file=sys.stderr)
+                return
         self.streets[name] = vertices
 
     def mod_street(self, name: str, vertices_str: list):
-        del self.streets[name]
-        vertices = []
-        for vertex in vertices_str:
-            x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
-            y_arg = int(re.split("[)]", (re.split(",",vertex)[1]))[0])
-            vertices.append((x_arg, y_arg))
-        self.streets[name] = vertices
+        try:
+            del self.streets[name]
+            vertices = []
+            for vertex in vertices_str:
+                x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
+                y_arg = int(re.split("[)]", (re.split(",",vertex)[1]))[0])
+                vertices.append((x_arg, y_arg))
+            self.streets[name] = vertices
+        except:
+            print('Error: Street does not exist', file=sys.stderr)
+            return
 
     def rm_street(self, name: str):
-        del self.streets[name]
+        try:
+            del self.streets[name]
+        except:
+            print('Error: Street does not exist', file=sys.stderr)
+            return
 
     def add_edge(self, vertex1_index, vertex2_index):
         self.edges.append(f"<{vertex1_index},{vertex2_index}>")
