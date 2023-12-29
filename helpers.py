@@ -9,8 +9,10 @@ def parse_input(line: str):
     if cmd != "gg":
         inputs = re.split('"', line)
         street_name = inputs[1]
-        vertices = re.split('\s', inputs[2].strip())
-        return cmd, street_name, vertices
+        if cmd != "rm":
+            vertices = re.split('\s', inputs[2].strip())
+            return cmd, street_name, vertices
+        return cmd, street_name, None
     else:
         return cmd, None, None
 
@@ -48,5 +50,3 @@ def check_intersection(intersection_point, end1_line1, end2_line1, end1_line2,
         return True
     else:
         return False
-
-    
