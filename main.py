@@ -17,19 +17,23 @@ def main():
         if line == "":
             break
         print("reading a line:", line)
-        
+
        # split the line into words
         cmd, street_name, vertices = parse_input(line)
 
         if cmd == "add":
             vertex_cover.add_street(street_name, vertices)
-            print(vertex_cover.get_streets())
-            print("Added a street")
+
+        elif cmd == "mod":
+            vertex_cover.mod_street(street_name, vertices)
+
         elif cmd == "gg":
             vertex_cover.update_vertices()
+            vertex_cover.print_vertices()
+            vertex_cover.print_edges()
 
-        
     print("Finished reading input")
+    # return exit code 0 on successful termination
     sys.exit(0)
 
 
