@@ -129,11 +129,23 @@ class vertexCover:
                                 self.segments[(end1_line2, end2_line2)].append(int(re.split("[v]", intersection2)[1]))
 
     def get_edges(self):
-        keys = list(self.intersections.keys())
-        if len(keys) < 1:
+        self.segmentation()
+        if len(self.segments) < 1:
             return []
-        elif len(keys) == 1:
-            return [f"<0,1>"]
-       
+        else:
+            for segment in self.segments:
+                if len(self.segments[segment]) == 1:
+                    self.add_edge(segment[0], self.segments[segment][0])
+                    self.add_edge(segment[1], self.segments[segment][0])
+                else:
+                    points_distances = {}
+                    for vertex in self.segments[segment]:
+                        points_distances[vertex] = np.linalg.norm(np.array(self.vertices[vertex]) - np.array(segment[0]))
+                    points_distances = dict(sorted(points_distances.items(), key=lambda item: item[1]), reverse=True)
+                    self.add_edge(segment[0], list(points_distances.keys())[0])
+                    for i in range(len(self.segments[segment])-1):
+                        self.add_edge(list(points_distances.keys())[i], list(points_distances.keys())[i+1])
+                    self.add_edge(segment[1], list(points_distances.keys())[-2])            
+
     def get_streets(self):
         return self.streets
