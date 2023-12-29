@@ -48,7 +48,6 @@ def main():
             vertex_cover.print_edges()
 
 
-    print("Finished reading input")
     # return exit code 0 on successful termination
     sys.exit(0)
 
