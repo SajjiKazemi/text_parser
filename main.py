@@ -19,35 +19,37 @@ def main():
         print("reading a line:", line)
 
        # split the line into words
-        cmd, street_name, vertices = parse_input(line)
+        try:
+            cmd, street_name, vertices = parse_input(line)
 
-        if cmd == "add":
-            if len(vertices) < 2:
-                print('Error: You need at least two point a street', file=sys.stderr)
-                continue
-            vertex_cover.add_street(street_name, vertices)
+            if cmd == "add":
+                if len(vertices) < 2:
+                    print('Error: You need at least two point a street', file=sys.stderr)
+                    continue
+                vertex_cover.add_street(street_name, vertices)
 
-        elif cmd == "mod":
-            if len(vertices) < 2:
-                print('Error: You need at least two point a street', file=sys.stderr)
-                continue
-            vertex_cover.mod_street(street_name, vertices)
+            elif cmd == "mod":
+                if len(vertices) < 2:
+                    print('Error: You need at least two point a street', file=sys.stderr)
+                    continue
+                vertex_cover.mod_street(street_name, vertices)
 
-        elif cmd == "rm":
-            if len(vertex_cover.streets) == 0:
-                print('Error: You need at least one street to remove', file=sys.stderr)
-                continue
-            vertex_cover.rm_street(street_name)
+            elif cmd == "rm":
+                if len(vertex_cover.streets) == 0:
+                    print('Error: You need at least one street to remove', file=sys.stderr)
+                    continue
+                vertex_cover.rm_street(street_name)
 
-        elif cmd == "gg":
-            if len(vertex_cover.streets) == 0:
-                print('Error: You need at least one street to draw', file=sys.stderr)
-                continue
-            vertex_cover.update_vertices()
-            vertex_cover.print_vertices()
-            vertex_cover.print_edges()
-
-
+            elif cmd == "gg":
+                if len(vertex_cover.streets) == 0:
+                    print('Error: You need at least one street to draw', file=sys.stderr)
+                    continue
+                vertex_cover.update_vertices()
+                vertex_cover.print_vertices()
+                vertex_cover.print_edges()
+        except Exception as e:
+            print('Error: ' + str(e), file=sys.stderr)
+            
     # return exit code 0 on successful termination
     sys.exit(0)
 
