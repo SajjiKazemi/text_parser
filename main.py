@@ -22,19 +22,26 @@ def main():
         cmd, street_name, vertices = parse_input(line)
 
         if cmd == "add":
+            if len(vertices) < 2:
+                print('Error: You need at least two point a street', file=sys.stderr)
+                continue
             vertex_cover.add_street(street_name, vertices)
 
         elif cmd == "mod":
+            if len(vertices) < 2:
+                print('Error: You need at least two point a street', file=sys.stderr)
+                continue
             vertex_cover.mod_street(street_name, vertices)
 
         elif cmd == "rm":
             vertex_cover.rm_street(street_name)
-    
+
         elif cmd == "gg":
             vertex_cover.update_vertices()
             vertex_cover.print_vertices()
             vertex_cover.print_edges()
 
+            
     print("Finished reading input")
     # return exit code 0 on successful termination
     sys.exit(0)
