@@ -10,6 +10,7 @@ class vertexCover:
         self.intersections = {}
         self.edges = []
         self.streets = {}
+        self.segments = {}
     
     def add_street(self, name: str, vertices_str: list):
         vertices = []
@@ -60,6 +61,8 @@ class vertexCover:
         #self.vertices = list(set(self.vertices))
         self.organize_intersections()       # Organize vertices (inside organize_intersections)
                                             # and intersections
+        
+        self.get_edges()
 
 
     def organize_vertices(self):
@@ -98,12 +101,39 @@ class vertexCover:
                 del self.intersections[intersection_key]
         self.vertices = intermediate
 
+    def segmentation(self):
+        """Segment the lines into smaller lines based on intersections"""
+        """The result is a dictionary with keys as the line segments and values as the vertices"""
+        for intersection in self.intersections:
+                end1_line1 = self.intersections[intersection][0]
+                end2_line1 = self.intersections[intersection][1]
+                end1_line2 = self.intersections[intersection][2]
+                end2_line2 = self.intersections[intersection][3]
+                if (end1_line1, end2_line1) not in self.segments:
+                    self.segments[(end1_line1, end2_line1)] = [int(re.split("[v]", intersection)[1])]
+                if (end1_line2, end2_line2) not in self.segments:
+                    self.segments[(end1_line2, end2_line2)] = [int(re.split("[v]", intersection)[1])]
+                for intersection2 in self.intersections:
+                    end1_line12 = self.intersections[intersection2][0]
+                    end2_line12 = self.intersections[intersection2][1]
+                    end1_line22 = self.intersections[intersection2][2]
+                    end2_line22 = self.intersections[intersection2][3]
+                    if intersection != intersection2:
+                        if (end1_line1, end2_line1) == (end1_line12, end2_line12) or \
+                            (end1_line1, end2_line1) == (end1_line22, end2_line22):
+                            if int(re.split("[v]", intersection2)[1]) not in self.segments[(end1_line1, end2_line1)]:
+                                self.segments[(end1_line1, end2_line1)].append(int(re.split("[v]", intersection2)[1]))
+                        if (end1_line2, end2_line2) == (end1_line12, end2_line12) or \
+                            (end1_line2, end2_line2) == (end1_line22, end2_line22):
+                            if int(re.split("[v]", intersection2)[1]) not in self.segments[(end1_line2, end2_line2)]:
+                                self.segments[(end1_line2, end2_line2)].append(int(re.split("[v]", intersection2)[1]))
+
     def get_edges(self):
         keys = list(self.intersections.keys())
         if len(keys) < 1:
             return []
-        if len(keys) == 1:
-            return [f"<0,1>"] 
-
+        elif len(keys) == 1:
+            return [f"<0,1>"]
+       
     def get_streets(self):
         return self.streets
