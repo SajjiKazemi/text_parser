@@ -27,6 +27,9 @@ def main():
         elif cmd == "mod":
             vertex_cover.mod_street(street_name, vertices)
 
+        elif cmd == "rm":
+            vertex_cover.rm_street(street_name)
+    
         elif cmd == "gg":
             vertex_cover.update_vertices()
             vertex_cover.print_vertices()
