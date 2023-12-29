@@ -1,7 +1,7 @@
 import re
 
 def parse_input(line: str):
-    
+
     """Parse input line into command, street name, and vertices"""
 
     inputs = re.split("\s", line)
@@ -30,4 +30,20 @@ def intersection(line1, line2):
         return x, y
     else:
         return False
+    
+def check_intersection(intersection_point, end1_line1, end2_line1, end1_line2,
+                        end2_line2):
+    """Check if the intersection point is on the line segment"""
+    if intersection_point[0] >= min(end1_line1[0], end2_line1[0]) and \
+        intersection_point[0] <= max(end1_line1[0], end2_line1[0]) and \
+        intersection_point[0] >= min(end1_line2[0], end2_line2[0]) and \
+        intersection_point[0] <= max(end1_line2[0], end2_line2[0]) and \
+        intersection_point[1] >= min(end1_line1[1], end2_line1[1]) and \
+        intersection_point[1] <= max(end1_line1[1], end2_line1[1]) and \
+        intersection_point[1] >= min(end1_line2[1], end2_line2[1]) and \
+        intersection_point[1] <= max(end1_line2[1], end2_line2[1]):
+        return True
+    else:
+        return False
+
     
