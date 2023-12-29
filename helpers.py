@@ -1,4 +1,5 @@
 import re
+import sys
 
 def parse_input(line: str):
 
@@ -6,15 +7,27 @@ def parse_input(line: str):
 
     inputs = re.split("\s", line)
     cmd = inputs[0]
-    if cmd != "gg":
-        inputs = re.split('"', line)
-        street_name = inputs[1]
-        if cmd != "rm":
-            vertices = re.split('\s', inputs[2].strip())
-            return cmd, street_name, vertices
-        return cmd, street_name, None
-    else:
-        return cmd, None, None
+    if cmd in ["add", "mod", "rm", "gg"]:
+        if cmd != "gg":
+            inputs = re.split('"', line)
+            
+            try:
+                street_name = inputs[1]
+            except:
+                print('Error: You did not obey the requested format', file=sys.stderr)
+                return None, None, None
+            if cmd != "rm":
+                pattern = r'\([^)]+\)[^\(\)]+\([^)]+\)'
+                if re.search(pattern, inputs[-1].strip()):
+                    print('Error: You did not obey the requested format', file=sys.stderr)
+                vertices = re.findall(r'\(\d+,\d+\)', inputs[-1].strip()) 
+                return cmd, street_name, vertices
+            return cmd, street_name, None
+        else:
+            return cmd, None, None
+    elif cmd not in ["add", "mod", "rm", "gg"]:
+        print('Error: Invalid command', file=sys.stderr)
+        return None, None, None
 
 def create_line(point1, point2):
     """Create a line from two points, considering the line equation Ax + By + C = 0"""
