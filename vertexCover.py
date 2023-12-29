@@ -6,13 +6,22 @@ from helpers import *
 
 class vertexCover:
     def __init__(self):
+        self.streets = {}
         self.vertices = {}
         self.intersections = {}
         self.edges = []
-        self.streets = {}
         self.segments = {}
     
     def add_street(self, name: str, vertices_str: list):
+        vertices = []
+        for vertex in vertices_str:
+            x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
+            y_arg = int(re.split("[)]", (re.split(",",vertex)[1]))[0])
+            vertices.append((x_arg, y_arg))
+        self.streets[name] = vertices
+
+    def mod_street(self, name: str, vertices_str: list):
+        del self.streets[name]
         vertices = []
         for vertex in vertices_str:
             x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
@@ -29,6 +38,10 @@ class vertexCover:
         self.vertices[index] = vertex
 
     def update_vertices(self):
+        self.vertices = {}
+        self.intersections = {}
+        self.edges = []
+        self.segments = {}
         keys = list(self.streets.keys())
         while len(keys) > 1:
             street1 = keys[0]
@@ -147,5 +160,15 @@ class vertexCover:
                         self.add_edge(list(points_distances.keys())[i], list(points_distances.keys())[i+1])
                     self.add_edge(segment[1], list(points_distances.keys())[-2])            
 
-    def get_streets(self):
-        return self.streets
+        
+    def print_vertices(self):
+        print("V = {")
+        for vertex in self.vertices:
+            print(f"  {vertex}: {self.vertices[vertex]}")
+        print("}")
+    
+    def print_edges(self):
+        print("E = {")
+        for edge in self.edges:
+            print(f"  {edge},")
+        print("}")
