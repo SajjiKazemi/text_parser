@@ -17,4 +17,17 @@ def create_line(point1, point2):
     B = (point2[0] - point1[0])
     C = (point1[0]*point2[1] - point2[0]*point1[1])
     return A, B, -C
+
+def intersection(line1, line2):
+    """Find the intersection point of two lines, considering the line equation Ax + By + C = 0
+    and using Cramer's rule"""
+    D = line1[0] * line2[1] - line1[1] * line2[0]
+    Dx = line1[2] * line2[1] - line1[1] * line2[2]
+    Dy = line1[0] * line2[2] - line1[2] * line2[0]
+    if D != 0:
+        x = Dx / D
+        y = Dy / D
+        return x, y
+    else:
+        return False
     
