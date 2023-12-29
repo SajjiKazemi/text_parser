@@ -15,8 +15,8 @@ class vertexCover:
         vertices = []
         for vertex in vertices_str:
             try:
-                x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
-                y_arg = int(re.split("[)]", (re.split(",",vertex)[1]))[0])
+                x_arg = float(re.split("[(]", (re.split(",",vertex)[0]))[1])
+                y_arg = float(re.split("[)]", (re.split(",",vertex)[1]))[0])
                 vertices.append((x_arg, y_arg))
             except Exception as e:
                 print('Error: You did not obey the requested format', file=sys.stderr)
@@ -28,8 +28,8 @@ class vertexCover:
             del self.streets[name]
             vertices = []
             for vertex in vertices_str:
-                x_arg = int(re.split("[(]", (re.split(",",vertex)[0]))[1])
-                y_arg = int(re.split("[)]", (re.split(",",vertex)[1]))[0])
+                x_arg = float(re.split("[(]", (re.split(",",vertex)[0]))[1])
+                y_arg = float(re.split("[)]", (re.split(",",vertex)[1]))[0])
                 vertices.append((x_arg, y_arg))
             self.streets[name] = vertices
         except:
@@ -85,9 +85,9 @@ class vertexCover:
                                     self.intersections[f'intn{len(self.intersections)}v{int((vertices_indices)[-1])}'] = \
                                         [int((vertices_indices)[-5]), int((vertices_indices)[-4])\
                                          , int((vertices_indices)[-3]), int((vertices_indices)[-2])]
+        
         self.organize_intersections()       # Organize vertices (inside organize_intersections)
                                             # and intersections
-        
         self.get_edges()
 
 
@@ -179,7 +179,8 @@ class vertexCover:
     def print_vertices(self):
         print("V = {")
         for vertex in self.vertices:
-            print(f"  {vertex}: {self.vertices[vertex]}")
+            formatted_value = "{:.2f}".format(self.vertices[vertex][0]) + "," + "{:.2f}".format(self.vertices[vertex][1])
+            print(f"  {vertex}: ({formatted_value})")
         print("}")
     
     def print_edges(self):
