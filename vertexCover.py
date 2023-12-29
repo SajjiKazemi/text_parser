@@ -29,6 +29,9 @@ class vertexCover:
             vertices.append((x_arg, y_arg))
         self.streets[name] = vertices
 
+    def rm_street(self, name: str):
+        del self.streets[name]
+
     def add_edge(self, vertex1_index, vertex2_index):
         self.edges.append(f"<{vertex1_index},{vertex2_index}>")
         return
