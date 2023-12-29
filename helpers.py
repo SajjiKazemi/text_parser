@@ -15,6 +15,9 @@ def parse_input(line: str):
         return None, None, None
     cmd = inputs[0]
     if cmd in ["add", "mod", "rm", "gg"]:
+        if cmd == "gg" and len(inputs) > 2:
+            print('Error: You did not obey the requested format', file=sys.stderr)
+            return None, None, None
         if cmd != "gg":
             inputs = re.split('"', line)
             
