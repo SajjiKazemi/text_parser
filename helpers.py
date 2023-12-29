@@ -6,10 +6,13 @@ def parse_input(line: str):
 
     inputs = re.split("\s", line)
     cmd = inputs[0]
-    inputs = re.split('"', line)
-    street_name = inputs[1]
-    vertices = re.split('\s', inputs[2].strip())
-    return cmd, street_name, vertices
+    if cmd != "gg":
+        inputs = re.split('"', line)
+        street_name = inputs[1]
+        vertices = re.split('\s', inputs[2].strip())
+        return cmd, street_name, vertices
+    else:
+        return cmd, None, None
 
 def create_line(point1, point2):
     """Create a line from two points, considering the line equation Ax + By + C = 0"""
