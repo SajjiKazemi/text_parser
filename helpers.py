@@ -27,7 +27,7 @@ def parse_input(line: str):
                 pattern = r'\([^)]+\)[^\(\)\s]+\([^)]+\)'
                 if re.search(pattern, inputs[-1].strip()):
                     print('Error: You did not obey the requested format', file=sys.stderr)
-                vertices = re.findall(r'\(\d+,\d+\)', inputs[-1].strip()) 
+                vertices = re.findall(r'\([-+]?\s*\d+\s*,\s*[-+]?\s*\d+\s*\)', inputs[-1].strip()) 
                 return cmd, street_name, vertices
             return cmd, street_name, None
         else:
@@ -52,7 +52,7 @@ def intersection(line1, line2):
     if D != 0:
         x = Dx / D
         y = Dy / D
-        return x, y
+        return round(x, 2), round(y, 2)
     else:
         return False
     
