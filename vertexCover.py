@@ -1,6 +1,5 @@
 import sys
 import re
-import numpy as np
 
 from helpers import *
 
@@ -86,7 +85,6 @@ class vertexCover:
                                     self.intersections[f'intn{len(self.intersections)}v{int((vertices_indices)[-1])}'] = \
                                         [int((vertices_indices)[-5]), int((vertices_indices)[-4])\
                                          , int((vertices_indices)[-3]), int((vertices_indices)[-2])]
-        #self.vertices = list(set(self.vertices))
         self.organize_intersections()       # Organize vertices (inside organize_intersections)
                                             # and intersections
         
@@ -168,7 +166,9 @@ class vertexCover:
                 else:
                     points_distances = {}
                     for vertex in self.segments[segment]:
-                        points_distances[vertex] = np.linalg.norm(np.array(self.vertices[vertex]) - np.array(segment[0]))
+                        points_distances[vertex] = (self.vertices[vertex][0] - segment[0])**2 + (self.vertices[vertex][1]\
+                            - segment[1])**2
+                        points_distances[vertex] = points_distances[vertex]**(1/2)
                     points_distances = dict(sorted(points_distances.items(), key=lambda item: item[1]), reverse=True)
                     self.add_edge(segment[0], list(points_distances.keys())[0])
                     for i in range(len(self.segments[segment])-1):
