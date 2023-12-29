@@ -16,8 +16,7 @@ def main():
         line = sys.stdin.readline()
         if line == "":
             break
-        print("reading a line:", line)
-
+        
        # split the line into words
         try:
             cmd, street_name, vertices = parse_input(line)
@@ -49,7 +48,7 @@ def main():
                 vertex_cover.print_edges()
         except Exception as e:
             print('Error: ' + str(e), file=sys.stderr)
-            
+
     # return exit code 0 on successful termination
     sys.exit(0)
 
