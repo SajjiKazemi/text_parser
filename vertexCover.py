@@ -137,22 +137,14 @@ class vertexCover:
                 end2_line2 = self.intersections[intersection][3]
                 if (end1_line1, end2_line1) not in self.segments:
                     self.segments[(end1_line1, end2_line1)] = [int(re.split("[v]", intersection)[1])]
+                if (end1_line1, end2_line1) in self.segments and \
+                    int(re.split("[v]", intersection)[1]) not in self.segments[(end1_line1, end2_line1)]:
+                    self.segments[(end1_line1, end2_line1)].append(int(re.split("[v]", intersection)[1]))
                 if (end1_line2, end2_line2) not in self.segments:
                     self.segments[(end1_line2, end2_line2)] = [int(re.split("[v]", intersection)[1])]
-                for intersection2 in self.intersections:
-                    end1_line12 = self.intersections[intersection2][0]
-                    end2_line12 = self.intersections[intersection2][1]
-                    end1_line22 = self.intersections[intersection2][2]
-                    end2_line22 = self.intersections[intersection2][3]
-                    if intersection != intersection2:
-                        if (end1_line1, end2_line1) == (end1_line12, end2_line12) or \
-                            (end1_line1, end2_line1) == (end1_line22, end2_line22):
-                            if int(re.split("[v]", intersection2)[1]) not in self.segments[(end1_line1, end2_line1)]:
-                                self.segments[(end1_line1, end2_line1)].append(int(re.split("[v]", intersection2)[1]))
-                        if (end1_line2, end2_line2) == (end1_line12, end2_line12) or \
-                            (end1_line2, end2_line2) == (end1_line22, end2_line22):
-                            if int(re.split("[v]", intersection2)[1]) not in self.segments[(end1_line2, end2_line2)]:
-                                self.segments[(end1_line2, end2_line2)].append(int(re.split("[v]", intersection2)[1]))
+                if (end1_line2, end2_line2) in self.segments and \
+                    int(re.split("[v]", intersection)[1]) not in self.segments[(end1_line2, end2_line2)]:
+                    self.segments[(end1_line2, end2_line2)].append(int(re.split("[v]", intersection)[1]))
 
     def get_edges(self):
         self.segmentation()
@@ -166,8 +158,8 @@ class vertexCover:
                 else:
                     points_distances = {}
                     for vertex in self.segments[segment]:
-                        points_distances[vertex] = (self.vertices[vertex][0] - segment[0])**2 + (self.vertices[vertex][1]\
-                            - segment[1])**2
+                        points_distances[vertex] = (self.vertices[vertex][0] - self.vertices[segment[0]][0])**2 + (self.vertices[vertex][1]\
+                            - self.vertices[segment[0]][1])**2
                         points_distances[vertex] = points_distances[vertex]**(1/2)
                     points_distances = dict(sorted(points_distances.items(), key=lambda item: item[1]), reverse=True)
                     self.add_edge(segment[0], list(points_distances.keys())[0])
