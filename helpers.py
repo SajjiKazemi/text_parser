@@ -4,8 +4,15 @@ import sys
 def parse_input(line: str):
 
     """Parse input line into command, street name, and vertices"""
-
+    pattern1 = r'\S+\s+"[^"]+"\s\([^)]+\)\s+\([^)]+\)(?:\s+\([^)]+\))*'
+    pattern2 = r'^\S*'
+    if not re.search(pattern1, line) and not re.search(pattern2, line):
+        print('Error: You did not obey the requested format', file=sys.stderr)
+        return None, None, None
     inputs = re.split("\s", line)
+    if len(inputs) < 4 and inputs[0] != "gg":
+        print('Error: You did not obey the requested format', file=sys.stderr)
+        return None, None, None
     cmd = inputs[0]
     if cmd in ["add", "mod", "rm", "gg"]:
         if cmd != "gg":
@@ -17,7 +24,7 @@ def parse_input(line: str):
                 print('Error: You did not obey the requested format', file=sys.stderr)
                 return None, None, None
             if cmd != "rm":
-                pattern = r'\([^)]+\)[^\(\)]+\([^)]+\)'
+                pattern = r'\([^)]+\)[^\(\)\s]+\([^)]+\)'
                 if re.search(pattern, inputs[-1].strip()):
                     print('Error: You did not obey the requested format', file=sys.stderr)
                 vertices = re.findall(r'\(\d+,\d+\)', inputs[-1].strip()) 
