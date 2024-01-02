@@ -1,4 +1,4 @@
-# Text Parser to Get the Streets' Information
+# Text Parser to Get the Graphs Coordinations
 
 ## Overview
 
@@ -15,7 +15,7 @@ For this project, a few steps will be taken:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/SajjiKazemi/input_parser.git
+git clone https://github.com/SajjiKazemi/text_parser.git
 ```
 
 ## Dependencies
